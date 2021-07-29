@@ -8,20 +8,9 @@ sys.path.append('/Users/nneveu/github/pyssnl/')
 sys.path.append('/Users/nneveu/github/emittance_minimization/code/')
 from libeopal import LibeOpal
 '''
-x values (last 5 are unique) 
- [ 57.74  28.38  10.99   2.21 -64.52  26.51  57.43  36.22 -29.25  17.97
-   -8.99   6.46 -37.6   18.33  22.8   17.59]
- [ 50.98  28.69  11.27  -8.77 -58.48  28.05  56.95  36.22 -21.39  17.56
-  -10.93   6.56  -9.91   5.01  16.07   2.28]
- [ 47.76  27.73  10.99  -8.76 -64.32  25.49  57.78  35.93 -35.01  20.27
-  -35.43   6.26 -10.47   5.03  15.83   1.68]
- [ 50.7   28.65  11.26  -9.15 -58.49  29.04  57.73  36.01 -20.72  18.24
-   -9.57   6.29 -10.47   4.89  16.16   0.88]
- [ 48.74  28.51  11.01  -8.95 -56.78  32.7   57.78  36.11   9.06  12.53
-  -36.23   6.   -10.89   5.22  14.66   1.73]]
-
 '''
-TEST_DIR = '/Users/nneveu/github/emittance_minimization/code/slac/ssnl/' #'/Users/nneveu/github/beam-shaping/template_files/'
+#'/Users/nneveu/github/emittance_minimization/code/slac/ssnl/' #
+TEST_DIR = '/Users/nneveu/github/beam-shaping/template_files/'
 FMAP_DIR = '/Users/nneveu/github/beam-shaping/fieldmaps/'
 
 STAT_NAMES = ['t', 's','numParticles','charge','energy','rms_x', 'rms_y', 'rms_s', \
@@ -61,7 +50,7 @@ SIM_SPECS = {
         'sim_kill_minutes':8,
         'key_dict':key_dict,
         'sim_particles':5e4,
-        'laser_filter':0.5,
+        'laser_filter':1.0,
         'cores':2,
         'zstop':15.0,
         'xscales':XSCALE,
@@ -73,29 +62,28 @@ SIM_SPECS = {
         }
 
 # picking which sims to do
-filename = glob.glob('/Users/nneveu/github/beam-shaping/sfg/datasets/*0.5*.npy')
+filename = glob.glob('/Users/nneveu/github/beam-shaping/sfg/datasets/*1*.npy')
 data = np.load(filename[0])
 
 #bunch length
 rms_s = data['rms_s']
 # roughly 1 mm
 # six runs for bw0.7
-mask = (data['rms_s']>0.00098) & (data['rms_s']<0.00102) & (data['emit_x']<0.37e-6)
+mask = (data['rms_s']>0.00098) & (data['rms_s']<0.00102) & (data['emit_x']<0.4e-6)
 #print(data[mask]['emit_x'])
 # cut data, last 5 ar unique
-cut = data[mask][-5:]
-print(cut['individual'])
+cut = data[mask]
+#print(cut['individual'])
 #print('emittance:', cut['emit_x'])
 #print('bunch length:', cut[i]['rms_s'])
 #print('x values', np.round(cut['individual'], decimals=2))
-
 
 #import pdb; pdb.set_trace()
 for i in range(0,len(cut)):
     print(i)
     XVALS = np.round(cut[i]['individual'], decimals=2)
     print(XVALS)
-    dirname = 'bw0.5_'+str(i)
+    dirname = 'bw1_'+str(i)
     print(dirname)
     #try:
     #    os.mkdir(dirname)
