@@ -72,22 +72,21 @@ def slice_plot(particle_group,
     ax.set_ylabel(r'Emittance ($\mu$m)')
  
     # Main plot
-    ax.plot(x, y, color = 'black', label='slice $\epsilon_x$')
+    ax.plot(x, y, color = 'black')
     #ax.set_ylim(0, 1.1*ymax )
 
     ax2 = ax.twinx()
     #ax2.set_ylabel(labely2)
     ax2.set_ylabel(r'Charge Density (FIX)')
-    ax2.fill_between(x, 0, y2, color='black', alpha = 0.2, label='charge')
+    ax2.fill_between(x, 0, y2, color='black', alpha = 0.2)
 
 
     import matplotlib.patches as mpatches
 
-    pop_a = mpatches.Patch(color='#0b559f', label='slice $\epsilon_x$')
+    pop_a = mpatches.Patch(color='k', linestyle='-', label='slice $\epsilon_x$')
     pop_b = mpatches.Patch(color='#89bedc', label='charge')
 
-    plt.legend(handles=[pop_a,pop_b])
-    ax.legend() 
+    ax.legend(handles=[pop_a,pop_b])
     
     return fig
 
