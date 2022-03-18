@@ -22,9 +22,9 @@ module list
 
 # Setting some enviornment variables
 source ~/.bashrc
-export PATH=/gpfs/slac/staas/fs1/g/g.beamphysics/nneveu/software/OPAL/opal_mpich/bin/:$PATH
+export PATH=/gpfs/slac/staas/fs1/g/g.beamphysics/neveu/software/OPAL/opal_mpich/bin/:$PATH
 
-/gpfs/slac/staas/fs1/g/g.beamphysics/nneveu/software/OPAL/opal_mpich/bin/mpiexec -n 32 opal sc_inj_C1.in
+/gpfs/slac/staas/fs1/g/g.beamphysics/neveu/software/OPAL/opal_mpich/bin/mpiexec -n 32 opal sc_inj_C1.in
 
 #
 # Print the date again -- when finished
