@@ -1,5 +1,8 @@
 #slice plots
 import sys
+import sys
+software = '/gpfs/slac/staas/fs1/g/accelerator_modeling/nneveu/software/'
+sys.path.append(software+'openPMD-beamphysics')
 import numpy as np
 from h5py import File
 from pmd_beamphysics.interfaces import opal
@@ -7,7 +10,7 @@ from pmd_beamphysics.plot import slice_plot
 from pmd_beamphysics.plot import marginal_plot, density_plot
 from pmd_beamphysics import ParticleGroup
 from pmd_beamphysics.plot import marginal_plot
-from pmd_beamphysics.interfaces.elegant import write_elegant, load_sdds, elegant_to_data
+from pmd_beamphysics.interfaces.elegant import write_elegant, load_sdds, elegant_to_data, elegant_h5_to_data
 from pmd_beamphysics.interfaces.opal import write_opal
 #import matplotlib
 #import matplotlib.pyplot as plt
@@ -16,13 +19,17 @@ from pmd_beamphysics.interfaces.opal import write_opal
 #plt.rc('font', size=16)
 #plt.rc('font', family='STIXGeneral')
 #plt.rc('mathtext', fontset='stix')
+# SDDS tools
+# /afs/slac/g/beamphysics/software/Elegant_2016/usr/bin/sdds2hdf
+# /nfs/slac/staas/fs1/g/g.beamphysics/franzpl/research_code/LH_shaping/elegant_genesis_stuff/sddsdatamodule.so
 
-filepath = '/gpfs/slac/staas/fs1/g/g.beamphysics/neveu/beam-shaping/backtracking/name'
-name     = 'LH_3kA.in'
+filepath = '/gpfs/slac/staas/fs1/g/g.beamphysics/neveu/beam-shaping/backtracking/'
+name     = 'LH_3kA.h5'
 
 sddsfile  = filepath+name
-particles = elegant_to_data(sddsfile, sdds2plaindata_bin='sdds2plaindata', species='electron', verbose=True) 
-opart     = write_opal(particles, 'opal_backtrack.dist')
+particles = elegant_h5_to_data(sddsfile) 
+pgroup    = ParticleGroup(data=particles)
+opart     = write_opal(pgroup, 'opal_backtrack.dist')
 
 #test = np.loadtxt(outfile, skiprows=17)
 #
