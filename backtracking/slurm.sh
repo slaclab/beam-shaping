@@ -10,7 +10,7 @@
 ######SBATCH --cpus-per-task=5
 #####SBATCH --mem-per-cpu=1g
 
-#SBATCH --time=00:10:00
+#SBATCH --time=72:10:00
 
 # Export SLURM_EXACT because of the new behavior in 21.08
 export SLURM_EXACT=1
