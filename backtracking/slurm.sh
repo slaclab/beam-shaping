@@ -10,7 +10,7 @@
 ######SBATCH --cpus-per-task=5
 #####SBATCH --mem-per-cpu=1g
 
-#SBATCH --time=03:30:00
+#SBATCH --time=72:10:00
 
 # Export SLURM_EXACT because of the new behavior in 21.08
 export SLURM_EXACT=1
@@ -24,7 +24,7 @@ module list
 source ~/.bashrc
 export PATH=/gpfs/slac/staas/fs1/g/g.beamphysics/neveu/software/OPAL/opal_mpich/bin/:$PATH
 
-/gpfs/slac/staas/fs1/g/g.beamphysics/neveu/software/OPAL/opal_mpich/bin/mpiexec -n 2 opal AWAGun-TrackBack-1.in
+/gpfs/slac/staas/fs1/g/g.beamphysics/neveu/software/OPAL/opal_mpich/bin/mpiexec -n 32 opal sc_inj_C1.in
 
 #
 # Print the date again -- when finished
