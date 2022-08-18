@@ -20,4 +20,4 @@ r_dist:
   type: radial_uniform
   max_r:
     units: mm
-    value: 0.6
+    value: 0.58
