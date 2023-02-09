@@ -34,7 +34,7 @@ gauss_data = elegant_h5_to_data(gauss_arb_file)
 h5data     = ParticleGroup(data=gauss_data)
 #h5data.plot('delta_t', 'delta_pz')
 #plt.show()
-h5data.slice_plot('norm_emit_x', n_slice=100)
+h5data.slice_plot('norm_emit_x', n_slice=1000) #, slice_key='t')
 plt.savefig('gauss_norm_emit.pdf',dpi=250)
 
 print('sigma_x', h5data['sigma_x'])
