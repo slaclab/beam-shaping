@@ -1,8 +1,9 @@
 import numpy as np
+import h5py
 import matplotlib.pyplot as plt
 from pmd_beamphysics import ParticleGroup
 from pmd_beamphysics.interfaces.elegant import elegant_h5_to_data
-
+from pmd_beamphysics.interfaces.opal import opal_to_data
 
 '''
 SDDS1
@@ -25,17 +26,23 @@ SDDS1
 
 # Load and get parameters from elegant files:
 top_dir         = '/Users/nneveu/github/beam-shaping/sfg'
-dcns_file       = top_dir +'/joehold/100MeV/elegant_ssnl_100MeV_10mill_de_adjusted_64by512_300emission_steps.txt.out'
-gauss_arb_file  = top_dir + '/jingyi/end_linac_arb_lht/SXRSTART_arb_laser.h5' #SXRSTART.out' # CORRECT!? picture matches paper
-#gauss_flat_file = '/jingyi/end_linac_flat_lht/SXRSTART.out' #SXRSTART_flat_laser.h5 # picture doesn't match?
+# End of CM01
+dcns_file       = top_dir +'/elegant_files/elegant_ssnl_100MeV_10mill_de_adjusted_64by512_300emission_steps.h5' #_2.h5'
+gauss_cm01      = top_dir +'/elegant_files/jingyi/end_CM01/gauss_linac_input.h5'
 
-#data_dcns = np.loadtxt(dcns_file, skiprows=16)
-gauss_data = elegant_h5_to_data(gauss_arb_file)
-h5data     = ParticleGroup(data=gauss_data)
-#h5data.plot('delta_t', 'delta_pz')
-#plt.show()
+# Start of SXR
+gauss_arb_file  = top_dir + '/elegant_files/jingyi/end_linac_arb_lht/SXRSTART_arb_laser.h5' #SXRSTART.out' # CORRECT!? picture matches paper
+
+#gauss_data = elegant_h5_to_data(gauss_arb_file)
+#h5data     = ParticleGroup(data=gauss_data)
+
+dcns_data = h5py.File(dcns_file, 'r')
+h5data    = ParticleGroup(h5=dcns_data)
+
 h5data.slice_plot('norm_emit_x', n_slice=1000) #, slice_key='t')
-plt.savefig('gauss_norm_emit.pdf',dpi=250)
+plt.show()
+#plt.savefig('gauss_norm_emit.pdf',dpi=250)
+#h5data.plot('delta_t', 'delta_pz')
 
 print('sigma_x', h5data['sigma_x'])
 print('energy', h5data['mean_energy'])
