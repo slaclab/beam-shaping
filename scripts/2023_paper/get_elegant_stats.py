@@ -5,6 +5,7 @@ from pmd_beamphysics import ParticleGroup
 from pmd_beamphysics.interfaces.elegant import elegant_h5_to_data
 from pmd_beamphysics.interfaces.opal import opal_to_data
 
+
 '''
 SDDS1
 !
@@ -27,19 +28,26 @@ SDDS1
 # Load and get parameters from elegant files:
 top_dir         = '/Users/nneveu/github/beam-shaping/sfg'
 # End of CM01
-dcns_file       = top_dir +'/elegant_files/elegant_ssnl_100MeV_10mill_de_adjusted_64by512_300emission_steps.h5' #_2.h5'
+dcns_cm01       = top_dir +'/elegant_files/elegant_ssnl_100MeV_10mill_de_adjusted_64by512_300emission_steps.h5'
 gauss_cm01      = top_dir +'/elegant_files/jingyi/end_CM01/gauss_linac_input.h5'
 
 # Start of SXR
-gauss_arb_file  = top_dir + '/elegant_files/jingyi/end_linac_arb_lht/SXRSTART_arb_laser.h5' #SXRSTART.out' # CORRECT!? picture matches paper
+gauss_arb_sxr = top_dir + '/elegant_files/jingyi/end_linac_arb_lht/SXRSTART_arb_laser.h5' #SXRSTART.out' # CORRECT!? picture matches paper
+dcns_sxr      = top_dir +'/elegant_files/elegant_ssnl_100MeV_10mill_de_adjusted_64by512_300emission_steps_2.h5'
 
-#gauss_data = elegant_h5_to_data(gauss_arb_file)
+#import pdb; pdb.set_trace()
+
+#For Gauss at end of CM01 - WORKS *with openPMD edits (no ID, no unit check on p)
+#gauss_h5 = h5py.File(gauss_cm01, 'r')
+#gauss_data = elegant_h5_to_data(gauss_h5)
 #h5data     = ParticleGroup(data=gauss_data)
 
-dcns_data = h5py.File(dcns_file, 'r')
-h5data    = ParticleGroup(h5=dcns_data)
+#For DCNS at end of CM01 - WORKS
+dcns_data = h5py.File(dcns_cm01, 'r')
+h5data    = ParticleGroup(h5=dcns_cm01)
 
 h5data.slice_plot('norm_emit_x', n_slice=1000) #, slice_key='t')
+#plt.ylim(0,100e-8)
 plt.show()
 #plt.savefig('gauss_norm_emit.pdf',dpi=250)
 #h5data.plot('delta_t', 'delta_pz')
