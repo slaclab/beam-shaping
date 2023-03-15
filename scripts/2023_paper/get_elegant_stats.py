@@ -56,12 +56,24 @@ dcns_sxr      = top_dir +'/elegant_files/elegant_ssnl_100MeV_10mill_de_adjusted_
 #h5data     = ParticleGroup(data=gauss_data)
 
 #For DCNS at end of CM01 - WORKS
-dcns_h5 = h5py.File(dcns_cm01, 'r')
-h5data  = ParticleGroup(h5=dcns_h5)
+#dcns_h5 = h5py.File(dcns_cm01, 'r')
+#h5data  = ParticleGroup(h5=dcns_h5)
+
+#For Gauss at end of linac - WORKS
+#gauss_sxr_h5   = h5py.File(gauss_arb_sxr, 'r')
+#gauss_sxr_data = elegant_h5_to_data(gauss_sxr_h5)
+#h5data         = ParticleGroup(data=gauss_sxr_data)
+
+#For DCNS at end of linac - Not working
+dcns_sxr_h5 = h5py.File(dcns_sxr, 'r')
+h5data  = ParticleGroup(h5=dcns_sxr_h5)
+
 
 fig = h5data.slice_plot('norm_emit_x', n_slice=1000) #, slice_key='t')
-#plt.title('Gaussian to CM01')
-#plt.title('DCNS to CM01')
+#plt.title('Gaussian to CM01 end')
+#plt.title('Gaussian to SXR start')
+#plt.title('DCNS to CM01 end')
+plt.title('DCNS to SXR start')
 
 #plt.gca().invert_xaxis()
 plt.show()
