@@ -47,7 +47,7 @@ gauss_cm01      = top_dir +'/elegant_files/jingyi/end_CM01/gauss_linac_input.h5'
 
 # Start of SXR
 gauss_arb_sxr = top_dir + '/elegant_files/jingyi/end_linac_arb_lht/SXRSTART_arb_laser.h5' #SXRSTART.out' # CORRECT!? picture matches paper
-dcns_sxr      = top_dir +'/elegant_files/elegant_ssnl_100MeV_10mill_de_adjusted_64by512_300emission_steps_2.h5'
+dcns_sxr      = top_dir +'/elegant_files/joehold/tmpa205lw9v/tmpa205lw9v.h5'
 
 
 #For Gauss at end of CM01 - WORKS *with openPMD edits (no ID, no unit check on p)
@@ -65,8 +65,11 @@ dcns_sxr      = top_dir +'/elegant_files/elegant_ssnl_100MeV_10mill_de_adjusted_
 #h5data         = ParticleGroup(data=gauss_sxr_data)
 
 #For DCNS at end of linac - Not working
-dcns_sxr_h5 = h5py.File(dcns_sxr, 'r')
-h5data  = ParticleGroup(h5=dcns_sxr_h5)
+dcns_sxr_h5   = h5py.File(dcns_sxr, 'r')
+import pdb; pdb.set_trace()
+dcns_sxr_data = elegant_h5_to_data(dcns_sxr_h5)
+h5data        = ParticleGroup(data=dcns_sxr_data)
+#h5data  = ParticleGroup(h5=dcns_sxr_h5)
 
 
 fig = h5data.slice_plot('norm_emit_x', n_slice=1000) #, slice_key='t')
