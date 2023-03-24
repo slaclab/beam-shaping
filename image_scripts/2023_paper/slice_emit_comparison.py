@@ -48,7 +48,8 @@ gauss_cm01      = top_dir +'/elegant_files/jingyi/end_CM01/gauss_linac_input.h5'
 
 # Start of SXR
 gauss_arb_sxr = top_dir + '/elegant_files/jingyi/end_linac_arb_lht/SXRSTART_arb_laser.h5' #SXRSTART.out' # CORRECT!? picture matches paper
-dcns_sxr      = top_dir +'/elegant_files/joehold/tmpa205lw9v/tmpa205lw9v.h5'
+dcns_sxr      = top_dir +'/elegant_files/joehold/100MeV/rerun_tmpa205lw9v/dcns_sxr.h5'
+#dcns_sxr      = top_dir +'/elegant_files/joehold/tmpa205lw9v/tmpa205lw9v.h5'
 
 
 #For Gauss at end of CM01 - WORKS *with openPMD edits (no ID, no unit check on p)
@@ -65,11 +66,9 @@ dcns_h5data  = ParticleGroup(h5=dcns_h5)
 #gauss_sxr_data = elegant_h5_to_data(gauss_sxr_h5)
 #h5data         = ParticleGroup(data=gauss_sxr_data)
 
-#For DCNS at end of linac - Not working
-#dcns_sxr_h5   = h5py.File(dcns_sxr, 'r')
-#dcns_sxr_data = elegant_h5_to_data(dcns_sxr_h5)
-#h5data        = ParticleGroup(data=dcns_sxr_data)
-#h5data  = ParticleGroup(h5=dcns_sxr_h5)
+#For DCNS at end of linac - WORKS
+#dcns_sxr_h5file = h5py.File(dcns_sxr, 'r')
+#dcns_sxr_h5data = ParticleGroup(h5=dcns_sxr_h5file)
 
 #fig = h5data.slice_plot('norm_emit_x', n_slice=1000) #, slice_key='t')
 #plt.title('Gaussian to CM01 end')
@@ -77,12 +76,21 @@ dcns_h5data  = ParticleGroup(h5=dcns_h5)
 #plt.title('DCNS to CM01 end')
 #plt.title('DCNS to SXR start')
 
-#plt.gca().invert_xaxis()
-#plt.show()
-#plt.savefig('gauss_norm_emit.pdf',dpi=250)
-#h5data.plot('delta_t', 'delta_pz')
+gauss_emit_slices_x = slice_statistics(gauss_h5data,  keys=['norm_emit_x'], n_slice=1000, slice_key='t')
+dcns_emit_slices_x  = slice_statistics(dcns_h5data,  keys=['norm_emit_x'], n_slice=1000, slice_key='t')
+gauss_emit_slices_y = slice_statistics(gauss_h5data,  keys=['norm_emit_y'], n_slice=1000, slice_key='t')
+dcns_emit_slices_y  = slice_statistics(dcns_h5data,  keys=['norm_emit_y'], n_slice=1000, slice_key='t')
 
-slice_data = slice_statistics(h5data,  keys=['norm_emit_x'], n_slice=1000, slice_key='t')
-plt.plot(slice_data['norm_emit_x'])
+plt.plot(gauss_emit_slices_x['norm_emit_x'], label=r"Gauss \epsilon_{nx}")
+plt.plot(gauss_emit_slices_y['norm_emit_y'], label=r"Gauss \epsilon_{ny}")
+plt.plot(dcns_emit_slices_x['norm_emit_x'], label=r"DCNS x")
+plt.plot(dcns_emit_slices_y['norm_emit_y'], label=r"DCNS y")
+
+plt.title('Slice emittance at the end of CM01')
+plt.xlabel('Time (fs)')
+plt.ylabel('Emittance (mm-mrad)')
 plt.show()
+#plt.gca().invert_xaxis()
+#plt.savefig('compare_slice_emit_gauss_dcns_end_cm01.pdf',dpi=250)
+
 
