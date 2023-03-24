@@ -6,6 +6,9 @@ from pmd_beamphysics import ParticleGroup
 from pmd_beamphysics.statistics import slice_statistics
 from pmd_beamphysics.interfaces.elegant import elegant_h5_to_data
 from pmd_beamphysics.interfaces.opal import opal_to_data
+import sys
+sys.path.append('/Users/nneveu/github/beam-shaping/scripts/2023_paper/')
+import SDDS
 
 #print(mpl.rcParams.keys())
 mpl.rcParams['xtick.labelsize']= 16
@@ -19,7 +22,15 @@ mpl.rcParams['axes.labelsize']= 16
 mpl.rcParams['mathtext.fontset']= 'stix'
 mpl.rcParams['font.family']= 'STIXGeneral'
 
-
+def get_data(lpath, filename):
+    mc2 = 0.51099895000e6
+    fontsize = 22
+    # load data
+    ff = SDDS.readSDDS(lpath + '/' + filename)
+    parameters, bunches = ff.read()
+    print('number of bunches: ', bunches.shape[0],' \t particles in bunch 0: ', bunches.shape[1])
+    d = bunches[0] # particle data
+    return d
 
 '''
 SDDS1
@@ -48,7 +59,7 @@ gauss_cm01      = top_dir +'/elegant_files/jingyi/end_CM01/gauss_linac_input.h5'
 
 # Start of SXR
 gauss_arb_sxr = top_dir + '/elegant_files/jingyi/end_linac_arb_lht/SXRSTART_arb_laser.h5' #SXRSTART.out' # CORRECT!? picture matches paper
-dcns_sxr      = top_dir +'/elegant_files/joehold/tmpa205lw9v/tmpa205lw9v.h5'
+dcns_sxr      = top_dir +'/elegant_files/joehold/100MeV/rerun_tmpa205lw9v/dcns_sxr.h5'
 
 
 #For Gauss at end of CM01 - WORKS *with openPMD edits (no ID, no unit check on p)
@@ -66,25 +77,26 @@ h5data     = ParticleGroup(data=gauss_data)
 #h5data         = ParticleGroup(data=gauss_sxr_data)
 
 #For DCNS at end of linac - Not working
-#dcns_sxr_h5   = h5py.File(dcns_sxr, 'r')
+dcns_sxr_h5   = h5py.File(dcns_sxr, 'r')
 #dcns_sxr_data = elegant_h5_to_data(dcns_sxr_h5)
+h5data  = ParticleGroup(h5=dcns_sxr_h5)
+#dcns_sxr_data = get_data(lpath = top_dir+'/elegant_files/joehold/100MeV/rerun_tmpa205lw9v',filename = 'SXRSTART.out')
 #h5data        = ParticleGroup(data=dcns_sxr_data)
-#h5data  = ParticleGroup(h5=dcns_sxr_h5)
 
-#fig = h5data.slice_plot('norm_emit_x', n_slice=1000) #, slice_key='t')
+fig = h5data.slice_plot('norm_emit_x', n_slice=100) #, slice_key='t')
 #plt.title('Gaussian to CM01 end')
 #plt.title('Gaussian to SXR start')
 #plt.title('DCNS to CM01 end')
-#plt.title('DCNS to SXR start')
+plt.title('DCNS to SXR start')
 
 #plt.gca().invert_xaxis()
-#plt.show()
+plt.show()
 #plt.savefig('gauss_norm_emit.pdf',dpi=250)
 #h5data.plot('delta_t', 'delta_pz')
 
-slice_data = slice_statistics(h5data,  keys=['norm_emit_x'], n_slice=1000, slice_key='t')
-plt.plot(slice_data['norm_emit_x'])
-plt.show()
+#slice_data = slice_statistics(h5data,  keys=['norm_emit_x'], n_slice=1000, slice_key='t')
+#plt.plot(slice_data['norm_emit_x'])
+#plt.show()
 #print('sigma_x', h5data['sigma_x'])
 #print('energy', h5data['mean_energy'])
 #print('gamma',h5data.avg('gamma'))
