@@ -51,46 +51,70 @@ gauss_arb_sxr = top_dir + '/elegant_files/jingyi/end_linac_arb_lht/SXRSTART_arb_
 dcns_sxr      = top_dir +'/elegant_files/joehold/100MeV/rerun_tmpa205lw9v/dcns_sxr.h5'
 #dcns_sxr      = top_dir +'/elegant_files/joehold/tmpa205lw9v/tmpa205lw9v.h5'
 
+cm01 = False
 
-#For Gauss at end of CM01 - WORKS *with openPMD edits (no ID, no unit check on p)
-gauss_h5     = h5py.File(gauss_cm01, 'r')
+if cm01:
+    #For Gauss at end of CM01 - WORKS *with openPMD edits (no ID, no unit check on p)
+    gauss_h5 = h5py.File(gauss_cm01, 'r')
+    #For DCNS at end of CM01 - WORKS
+    dcns_h5 = h5py.File(dcns_cm01, 'r')
+    savefile = 'compare_slice_emit_gauss_dcns_cm01_exit.pdf'
+
+else: 
+    #For Gauss at end of linac - WORKS
+    gauss_h5 = h5py.File(gauss_arb_sxr, 'r')
+    #For DCNS at end of linac - WORKS
+    dcns_h5  = h5py.File(dcns_sxr, 'r')
+    savefile = 'compare_slice_emit_gauss_dcns_sxr_start.pdf'
+
 gauss_data   = elegant_h5_to_data(gauss_h5)
 gauss_h5data = ParticleGroup(data=gauss_data)
-
-#For DCNS at end of CM01 - WORKS
-dcns_h5      = h5py.File(dcns_cm01, 'r')
 dcns_h5data  = ParticleGroup(h5=dcns_h5)
-
-#For Gauss at end of linac - WORKS
-#gauss_sxr_h5   = h5py.File(gauss_arb_sxr, 'r')
-#gauss_sxr_data = elegant_h5_to_data(gauss_sxr_h5)
-#h5data         = ParticleGroup(data=gauss_sxr_data)
-
-#For DCNS at end of linac - WORKS
-#dcns_sxr_h5file = h5py.File(dcns_sxr, 'r')
-#dcns_sxr_h5data = ParticleGroup(h5=dcns_sxr_h5file)
-
-#fig = h5data.slice_plot('norm_emit_x', n_slice=1000) #, slice_key='t')
-#plt.title('Gaussian to CM01 end')
-#plt.title('Gaussian to SXR start')
-#plt.title('DCNS to CM01 end')
-#plt.title('DCNS to SXR start')
 
 gauss_emit_slices_x = slice_statistics(gauss_h5data,  keys=['norm_emit_x'], n_slice=1000, slice_key='t')
 dcns_emit_slices_x  = slice_statistics(dcns_h5data,  keys=['norm_emit_x'], n_slice=1000, slice_key='t')
 gauss_emit_slices_y = slice_statistics(gauss_h5data,  keys=['norm_emit_y'], n_slice=1000, slice_key='t')
 dcns_emit_slices_y  = slice_statistics(dcns_h5data,  keys=['norm_emit_y'], n_slice=1000, slice_key='t')
 
-plt.plot(gauss_emit_slices_x['norm_emit_x'], label=r"Gauss \epsilon_{nx}")
-plt.plot(gauss_emit_slices_y['norm_emit_y'], label=r"Gauss \epsilon_{ny}")
-plt.plot(dcns_emit_slices_x['norm_emit_x'], label=r"DCNS x")
-plt.plot(dcns_emit_slices_y['norm_emit_y'], label=r"DCNS y")
+delta_time = 10**12*(np.max(gauss_h5data.t) - np.min(gauss_h5data.t)) 
+time       = np.arange(-delta_time/2, delta_time/2, delta_time/np.size(gauss_emit_slices_x['norm_emit_x']))
 
-plt.title('Slice emittance at the end of CM01')
-plt.xlabel('Time (fs)')
-plt.ylabel('Emittance (mm-mrad)')
-plt.show()
-#plt.gca().invert_xaxis()
-#plt.savefig('compare_slice_emit_gauss_dcns_end_cm01.pdf',dpi=250)
+colors = {
+    'blue':    '#377eb8',
+    'orange':  '#ff7f00',
+    'green':   '#4daf4a',
+    'pink':    '#f781bf',
+    'brown':   '#a65628',
+    'purple':  '#984ea3',
+    'gray':    '#999999',
+    'red':     '#e41a1c',
+    'yellow':  '#dede00'
+}
+
+#plt.plot(time, gauss_emit_slices_x['norm_emit_x']*10**6, label=r"Gaussian $\epsilon_{n,x}$", color='purple', linestyle='dotted')
+#plt.plot(time, gauss_emit_slices_y['norm_emit_y']*10**6, label=r"Gaussian $\epsilon_{n,y}$", alpha=0.5, color='blue', linestyle='--')
+#plt.plot(time, dcns_emit_slices_x['norm_emit_x']*10**6, label=r"DCNS $\epsilon_{n,x}$", color='brown', linestyle='-.')
+#plt.plot(time, dcns_emit_slices_y['norm_emit_y']*10**6, label=r"DCNS $\epsilon_{n,y}$", alpha=0.5, color='gray', linestyle='-')
+#
+##plt.title('Slice emittance at the end of CM01')
+#plt.xlabel('Time (ps)')
+#plt.ylabel('Emittance (mm-mrad)')
+#plt.legend()
+##plt.show()
+##plt.gca().invert_xaxis()
+#plt.savefig(savefile,dpi=250)
+
+
+
+datalist = [gauss_emit_slices_x, dcns_emit_slices_x, gauss_emit_slices_y, dcns_emit_slices_y]
+for data in datalist:
+    key  = data.keys()
+    import pdb; pdb.set_trace()
+    emit = data[key]*10**6
+    test = np.where(emit<0.5)
+    print(sum(test))
+
+
+
 
 
