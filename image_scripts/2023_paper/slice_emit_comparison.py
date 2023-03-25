@@ -76,20 +76,21 @@ dcns_emit_slices_x  = slice_statistics(dcns_h5data,  keys=['norm_emit_x'], n_sli
 gauss_emit_slices_y = slice_statistics(gauss_h5data,  keys=['norm_emit_y'], n_slice=1000, slice_key='t')
 dcns_emit_slices_y  = slice_statistics(dcns_h5data,  keys=['norm_emit_y'], n_slice=1000, slice_key='t')
 
-delta_time = 10**12*(np.max(gauss_h5data.t) - np.min(gauss_h5data.t)) 
-time       = np.arange(-delta_time/2, delta_time/2, delta_time/np.size(gauss_emit_slices_x['norm_emit_x']))
-
-colors = {
-    'blue':    '#377eb8',
-    'orange':  '#ff7f00',
-    'green':   '#4daf4a',
-    'pink':    '#f781bf',
-    'brown':   '#a65628',
-    'purple':  '#984ea3',
-    'gray':    '#999999',
-    'red':     '#e41a1c',
-    'yellow':  '#dede00'
-}
+#PLOTTING lines 
+#delta_time = 10**12*(np.max(gauss_h5data.t) - np.min(gauss_h5data.t)) 
+#time       = np.arange(-delta_time/2, delta_time/2, delta_time/np.size(gauss_emit_slices_x['norm_emit_x']))
+#
+#colors = {
+#    'blue':    '#377eb8',
+#    'orange':  '#ff7f00',
+#    'green':   '#4daf4a',
+#    'pink':    '#f781bf',
+#    'brown':   '#a65628',
+#    'purple':  '#984ea3',
+#    'gray':    '#999999',
+#    'red':     '#e41a1c',
+#    'yellow':  '#dede00'
+#}
 
 #plt.plot(time, gauss_emit_slices_x['norm_emit_x']*10**6, label=r"Gaussian $\epsilon_{n,x}$", color='purple', linestyle='dotted')
 #plt.plot(time, gauss_emit_slices_y['norm_emit_y']*10**6, label=r"Gaussian $\epsilon_{n,y}$", alpha=0.5, color='blue', linestyle='--')
@@ -105,16 +106,20 @@ colors = {
 #plt.savefig(savefile,dpi=250)
 
 
+xdata = [gauss_emit_slices_x, dcns_emit_slices_x]
+ydata = [gauss_emit_slices_y, dcns_emit_slices_y]
 
-datalist = [gauss_emit_slices_x, dcns_emit_slices_x, gauss_emit_slices_y, dcns_emit_slices_y]
-for data in datalist:
-    key  = data.keys()
-    import pdb; pdb.set_trace()
-    emit = data[key]*10**6
+for data in xdata:
+    print('X sum')
+    emit = data['norm_emit_x']*10**6
     test = np.where(emit<0.5)
-    print(sum(test))
+    print(len(test[0]))
 
 
-
+for data in ydata:
+    print('Y sum')
+    emit = data['norm_emit_y']*10**6
+    test = np.where(emit<0.5)
+    print(len(test[0]))
 
 
