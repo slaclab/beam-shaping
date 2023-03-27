@@ -71,10 +71,27 @@ gauss_data   = elegant_h5_to_data(gauss_h5)
 gauss_h5data = ParticleGroup(data=gauss_data)
 dcns_h5data  = ParticleGroup(h5=dcns_h5)
 
+print('gauss de', (np.max(gauss_h5data.energy)-np.min(gauss_h5data.energy))/ np.mean(gauss_h5data.energy) )
+print('dcns de' , (np.max(dcns_h5data.energy)-np.min(dcns_h5data.energy))  / np.mean(dcns_h5data.energy) )
+
+print('gauss betax', np.mean(gauss_h5data.beta_x))
+print('dcns betax', np.mean(dcns_h5data.beta_x))
+
+print('gauss ave current', gauss_h5data.average_current)
+print('dcns ave current', dcns_h5data.average_current)
+
 gauss_emit_slices_x = slice_statistics(gauss_h5data,  keys=['norm_emit_x'], n_slice=1000, slice_key='t')
 dcns_emit_slices_x  = slice_statistics(dcns_h5data,  keys=['norm_emit_x'], n_slice=1000, slice_key='t')
 gauss_emit_slices_y = slice_statistics(gauss_h5data,  keys=['norm_emit_y'], n_slice=1000, slice_key='t')
 dcns_emit_slices_y  = slice_statistics(dcns_h5data,  keys=['norm_emit_y'], n_slice=1000, slice_key='t')
+
+
+gauss_current_slices_x = slice_statistics(gauss_h5data,  keys=['average_current'], n_slice=1000, slice_key='t')
+dcns_current_slices_x  = slice_statistics(dcns_h5data,  keys=['average_current'], n_slice=1000, slice_key='t')
+gauss_current_slices_y = slice_statistics(gauss_h5data,  keys=['average_current'], n_slice=1000, slice_key='t')
+dcns_current_slices_y  = slice_statistics(dcns_h5data,  keys=['average_current'], n_slice=1000, slice_key='t')
+
+#slice_statistics(gauss_h5data,  keys=['average_current'], n_slice=1000, slice_key='t')
 
 #PLOTTING lines 
 #delta_time = 10**12*(np.max(gauss_h5data.t) - np.min(gauss_h5data.t)) 
@@ -114,12 +131,12 @@ for data in xdata:
     emit = data['norm_emit_x']*10**6
     test = np.where(emit<0.5)
     print(len(test[0]))
-
+    print(test)
 
 for data in ydata:
     print('Y sum')
     emit = data['norm_emit_y']*10**6
     test = np.where(emit<0.5)
     print(len(test[0]))
-
+    print(test)
 
