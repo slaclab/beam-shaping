@@ -1,0 +1,24 @@
+n_particle: 10000
+random:
+  type: hammersley
+random_seed: 0
+
+start:
+  MTE: 150 meV
+  type: cathode
+
+total_charge: 1 nC
+
+xy_dist:
+  file: USAF_target.jpg 
+  max_x: 10 mm
+  max_y: 10 mm
+  min_x: -10 mm
+  min_y: -10 mm
+  threshold: 0.0
+  type: file2d
+
+t_dist:
+  max_t: +50.0 ns
+  min_t: -50.0 ns
+  type: uniform

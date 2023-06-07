@@ -1,0 +1,62 @@
+&NEWRUN
+   HEAD='EBM_PHOTOINJECTOR'     ! header
+   RUN=1                        ! run number
+   DISTRIBUTION='DIST.IN'       ! input particle distribution
+   H_MIN=0.000                  ! minimum time step in ns for the Runge-Kutta integrator
+   H_MAX=0.100                  ! maximum time step in ns for the Runge-Kutta integrator (default = 0.001)
+   LMAGNETIZED=T                ! if true, solenoid fields are neglected when calculating emittance
+   LPROJECT_EMIT=F              ! if true, particles are projected to the beam center when calculating emittance
+   CHECK_REF_PART=F             ! if true, the run will be interrupted if the reference particle is lost
+   AUTO_PHASE=F                 ! if true, the RF phases will be set relative to the phase with maximum energy gain
+   PHASE_SCAN=F                 ! if true, the RF phases of the cavities will be scanned between 0 and 360 degree
+   TRACK_ALL=T                  ! if false, only the reference particle will be tracked
+/
+
+&OUTPUT
+   ZSTART=0.0                   ! minimal z postion for the generation of output (not the start of tracking)
+   ZSTOP=10.0                   ! tracking stops when the bunch center passes ZSTOP
+   ZEMIT=100                    ! ZStop-ZStart is divided into Zemit intervals
+   ZPHASE=100                   ! the particle distribution is saved at Zphase locations
+   PHASES=T                     ! flag to output Zphase locations
+   T_PHASES=F                   ! 
+   LARMORS=F                    ! 
+   REFS=F                       ! output of off-axis reference trajectory
+   EMITS=F                      ! output of emittance and other beam parameters
+   HIGH_RES=F                   ! particle distributions are saved with increased accuracy
+   C_EMITS=F                    ! if true, output files according to Table 3 and Table 4 are generated
+   LANDFS=F                     ! if true, output files according to Table 3 and Table 4 are generated
+   TCHECKS=F                    ! if true, output files according to Table 3 and Table 4 are generated
+   TRACKS=F                     ! if true, output files according to Table 3 and Table 4 are generated
+   CATHODES=F                   ! if true, output files according to Table 3 and Table 4 are generated
+/
+
+&CHARGE
+   LSPCH=T                      ! flag to calculate space charge
+   Lspch3D=T                    ! 
+   Nxf=8                        ! number of grid cells in x-direction, default=8
+   Nx0=3                        ! number of empty boundary grid cells in x-direction on each side of the bunch, default=2
+   Nyf=8                        ! number of grid cells in y-direction, default=8
+   Ny0=3                        ! number of empty boundary grid cells in y-direction on each side of the bunch, default=2
+   Nzf=8                        ! number of grid cells in z-direction, default=8
+   Nz0=3                        ! number of empty boundary grid cells in z-direction on each side of the bunch, default=2
+/
+
+&CAVITY
+   LEFieLD=T                    ! 
+   File_Efield(1)='DCGUN.DAT'   ! 
+   C_pos(1)=0.0                 ! 
+   Nue(1)=0.0                   ! set to 0 for DC fields
+   MaxE(1)=-1.0                 ! MV/m
+   Phi(1)=0.0                   ! phase of the RF field
+   C_smooth(1)=10               ! 
+   C_higher_order(1)=T          ! 
+/
+
+&SOLENOID
+   LBFieLD=T                    ! 
+   FILE_BFieLD(1)='SOL.DAT'     ! 
+   MaxB(1)=0.0045               ! 
+   S_pos(1)=0.600               ! 
+   S_smooth(1)=10               ! 
+   S_higher_order(1)=T          ! 
+/
