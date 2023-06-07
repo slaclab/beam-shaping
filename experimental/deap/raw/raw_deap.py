@@ -5,9 +5,9 @@
 #    mpiexec -np 3 python3 {FILENAME}.py
 # The number of concurrent evaluations of the objective function will be 2-1=1.
 # """
-import mpi4py
-mpi4py.rc.recv_mprobe = False
-from mpi4py import MPI
+#import mpi4py
+#mpi4py.rc.recv_mprobe = False
+#from mpi4py import MPI
 
 import os, sys, glob
 import numpy as np
@@ -16,13 +16,13 @@ from libensemble.message_numbers import WORKER_DONE, WORKER_KILL, TASK_FAILED, W
 from libensemble.libE import libE
 
 from libensemble.alloc_funcs.start_only_persistent import only_persistent_gens as alloc_f
-from libensemble.gen_funcs.persistent_deap_nsga2 import deap_nsga2 as gen_f
+from persistent_deap_nsga2 import deap_nsga2 as gen_f
 
 from libensemble.tools import parse_args, save_libE_output, add_unique_random_streams 
 from libensemble.executors.mpi_executor import MPIExecutor
 
-from libensemble import libE_logger
-libE_logger.set_level('DEBUG')
+from libensemble import logger
+logger.set_level('DEBUG')
 nworkers, is_master, libE_specs, _ = parse_args()
 assert nworkers >= 2, "Cannot run with a persistent gen_f if only one worker."
 
@@ -37,7 +37,7 @@ files   = 'templates/'
 
 # Register simulation executable with executor 
 sim_app = '/gpfs/slac/staas/fs1/g/accelerator_modeling/nneveu/software/OPAL/opal_mpich/bin/opal'
-exctr.register_calc(full_path=sim_app, calc_type='sim')
+exctr.register_app(full_path=sim_app, calc_type='sim')
 
 libE_specs['sim_dir_symlink_files'] = [ f for f in glob.glob(TOP_DIR+'fieldmaps/*.txt')]
 
