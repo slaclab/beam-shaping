@@ -10,7 +10,7 @@ start:
     value: 150
   type: cathode
 t_dist:
-  file: high_peak_tprofile.txt
+  file: distributions/high_peak_tprofile.txt
   type: file1d
   units: ps
 total_charge:
