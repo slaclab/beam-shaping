@@ -1,4 +1,5 @@
 n_particle: 10000
+species: electron
 output:
   file: high_peak_astra_dist.txt
   type: astra
@@ -10,12 +11,12 @@ start:
     value: 150
   type: cathode
 t_dist:
-  file: distributions/high_peak_tprofile.txt
+  file: high_peak_tprofile.txt
   type: file1d
-  units: ps
+  units: ps 
 total_charge:
   units: pC
-  value: 10
+  value: 80
 r_dist:
-  sigma_xy: 1 mm
+  sigma_xy: 2 mm
   type: radial_gaussian
