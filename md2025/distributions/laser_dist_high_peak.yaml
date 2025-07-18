@@ -1,7 +1,7 @@
-n_particle: 100000
+n_particle: 10000
 output:
-  file: t.file.out.txt
-  type: gpt
+  file: high_peak_astra_dist.txt
+  type: astra
 random:
   type: hammersley
 start:
