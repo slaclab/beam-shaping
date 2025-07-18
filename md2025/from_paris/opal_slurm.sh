@@ -1,7 +1,6 @@
 #! /bin/bash
 
-#SBATCH --account=#! /bin/bash
-
+#SBATCH --account=ad:rp
 #SBATCH --partition=milano
 #SBATCH --job-name=Opal
 #SBATCH --output=job_%j.out
