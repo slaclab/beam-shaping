@@ -1,4 +1,4 @@
-n_particle: 10000
+n_particle: 100000
 species: electron
 output:
   file: broad_peak_dist.txt
