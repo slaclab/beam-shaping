@@ -1,7 +1,7 @@
 n_particle: 10000
 species: electron
 output:
-  file: high_peak_dist.txt
+  file: broad_peak_dist.txt
   type: opal
 random:
   type: hammersley
@@ -11,7 +11,7 @@ start:
     value: 150
   type: cathode
 t_dist:
-  file: 2025-04-22_UVbeamprofile_highpeak.txt
+  file: 2025-04-13_UVbeamprofile_broad.txt
   type: file1d
   units: ps 
 total_charge:
