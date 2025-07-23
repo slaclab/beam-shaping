@@ -16,7 +16,7 @@ t_dist:
   units: ps 
 total_charge:
   units: pC
-  value: 80
+  value: 40
 r_dist:
   sigma_xy: 2 mm
   type: radial_gaussian
