@@ -1,4 +1,4 @@
-n_particle: 100000
+n_particle: 1000000
 species: electron
 output:
   file: broad_peak_dist.txt
@@ -18,5 +18,5 @@ total_charge:
   units: pC
   value: 80
 r_dist:
-  sigma_xy: 2 mm
+  sigma_xy: 1 mm
   type: radial_gaussian
